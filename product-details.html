@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détail produit - Sophie Glamour Shop</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="sophie.css">
+</head>
+<body>
+    <header class="header"><div class="container header-container"><div class="logo"><a href="sophie.html"><i class="fas fa-leaf"></i> Sophie Glamour Shop</a></div><nav class="navbar"><ul><li><a href="sophie.html">Accueil</a></li><li><a href="products.html">Produits</a></li><li><a href="cart.html">Panier <span id="cart-count" class="cart-badge">0</span></a></li><li><a href="checkout.html">Commande</a></li><li><a href="admin.html">Gestion</a></li></ul></nav><div class="menu-toggle"><i class="fas fa-bars"></i></div></div></header>
+
+    <main class="container">
+        <div id="product-detail" class="form-card" style="display:flex; gap:2rem; flex-wrap:wrap;">
+            <!-- contenu dynamique -->
+        </div>
+        <div style="margin-top:2rem; text-align:center;">
+            <a href="products.html" class="btn-primary" style="background:#a78bfa;"><i class="fas fa-arrow-left"></i> Retour aux produits</a>
+        </div>
+    </main>
+
+    <footer class="footer"><div class="container footer-container"><div class="footer-col"><h4>Sophie Glamour Shop</h4><p>Beauté naturelle</p></div></div></footer>
+
+    <div id="chatbot-widget" class="chatbot-widget"><div class="chatbot-header"><i class="fas fa-robot"></i> Smart Beauty IA<button id="closeChatBtn" class="close-chat"><i class="fas fa-times"></i></button></div><div class="chatbot-messages" id="chatMessages"><div class="bot-msg">🌸 Détails du produit ? Posez vos questions !</div></div><div class="chatbot-input"><input type="text" id="chatInput"><button id="sendChatBtn"><i class="fas fa-paper-plane"></i></button></div></div>
+    <div id="chatbotToggle" class="chatbot-toggle"><i class="fas fa-comment-dots"></i> Smart Beauty</div>
+
+    <script src="sophie.js"></script>
+    <script>
+        function loadProductDetail() {
+            const params = new URLSearchParams(window.location.search);
+            const productId = parseInt(params.get('id'));
+            if(!productId) { document.getElementById('product-detail').innerHTML = '<p>Produit non trouvé.</p>'; return; }
+            let product = getProductDetails(productId);
+            if(!product) { document.getElementById('product-detail').innerHTML = '<p>Ce produit n\'existe pas.</p>'; return; }
+            document.getElementById('product-detail').innerHTML = `
+                <div style="flex:1;"><img src="${product.image}" alt="${product.name}" style="width:100%; border-radius:28px;"></div>
+                <div style="flex:1.5;"><h2>${product.name}</h2><p style="color:#4a3a6e;">${product.desc}</p><p class="price">${product.price} FCFA</p><button id="detail-add-cart" class="btn-primary" style="background:#8b5cf6;"><i class="fas fa-cart-plus"></i> Ajouter au panier</button></div>
+            `;
+            document.getElementById('detail-add-cart')?.addEventListener('click', () => {
+                addToCart(product.id, 1);
+                updateCartBadge();
+                alert(`${product.name} ajouté au panier !`);
+            });
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProductDetail();
+            updateCartBadge();
+            initChatbotEvents();
+        });
+    </script>
+</body>
+</html

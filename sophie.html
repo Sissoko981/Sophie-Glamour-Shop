@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop online</title>
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="sophie.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container header-container">
+            <div class="logo">
+                <h1>Sophie Glamour Shop</h1>
+                <a href="sophie.html"><i class="fas fa-home">Sophie Glamour Shop</i></a>
+            </div>
+        </div>
+        <nav class="navbar">
+            <ul>
+                <li><a href="sophie.html">Acceuil</a></li>
+                <li><a href="products.html">Produits</a></li>
+                <li><a href="cart.html">Panier <span id="cart-count" class="cart-badge">0</span></a></li>
+                <li><a href="checkout.html">Commandes</a></li>
+                <li><a href="admin.html" class="admin-link"><i class="fas fa-user-shield"></i> Gestion</a></li>
+            </ul>
+        </nav>
+        <div class="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </div>
+    </header>
+
+    <main>
+        <!-- BANNIERE DE LA PAGE -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Eveillez vos sens, <span>rayonnez de beauté</span></h1>
+                <p>Parfums exquis, soins naturels & hygiène premium - la fragrance de l'élégance et de votre bien-être.</p>
+                <a href="#products" class="btn-primary">Découvrir la collection <i class="fas fa-chevron-right"></i></a>
+            </div>
+            <div class="hero-image">
+                <img src="https://images.pexels.com/photos/4041392/pexels-photo-4041392.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Sophie Glamour Shop">
+            </div>
+        </section>
+
+        <section class="popular-products">
+            <!-- change id to popular-products for better targeting in JS -->
+            <div class="container">
+                <h2>Nos Produits</h2>
+                <div class="section-header">
+                    <h2>Nos best-sellers</h2>
+                    <p>Les essentiels que nos clients choisissent le plus</p>
+                    <!-- Product items will be added here -->
+                </div>
+                <div class="popular-products-grid">
+                    <!-- Product items will be added here -->
+                </div>
+            </div>
+        </section>
+        <!-- AVANTAGES DE LA BOUTIQUE -->
+
+        <section class="features">
+            <div class="container features-grid">
+                <div class="feature"><i class="fas fa-truck-fast"></i><h3>Livraison Rapide</h3>
+                <p>Recevez vos commandes en un temps record, partout au Sénégal.</p></div>
+                <div class="feature"><i class="fas fa-hand-holding-heart"></i><h3>Conseils IA</h3>
+                <p>Smart Beauty Assistant</p></div>
+                <div class="feature"><i class="fas fa-leaf"></i><h3>Formules clean</h3>
+                <p>Respectueuses de la peau .</p></div>
+
+                <div class="feature"><i class="fas fa-whatsapp"></i><h3>Commande en ligne</h3>
+                <p>Passer vos commandes facilement depuis votre smartphone.</p><p>Via WhatsApp</p></div>
+
+                <div class="feature"><i class="fas fa-robot"></i><h3>Personnalisation</h3>
+                <p>Expérience d'achat sur mesure</p></div>
+
+                <div class="feature"><i class="fas fa-shield-alt"></i><h3>Paiement Sécurisé</h3>
+                <p>Vos données de paiement sont protégées par notre système de cryptage avancé.</p></div>
+            </div>
+        </section>
+    </main>
+<!-- FOOTER -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-col">
+                <h3>Sophie Glamour Shop</h3>
+                <p>Votre destination pour les parfums et soins de beauté premium.</p>
+            </div>
+        </div>
+        <div class="socials">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-tiktok"></i></a>
+        </div>
+        <div class="footer-col">
+            <h4>Liens utiles</h4>
+            <ul>
+                <li><a href="products.html">Boutique</a></li>
+                <li><a href="cart.html">Mon panier</a></li>
+                <li><a href="checkout.html">Commander</a></li>
+                <li><a href="admin.html">Espace vendeur</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Contactez-nous</h4>
+            <p>Email: <a href="mailto:sophiekaire@gmail.com">sophiekaire@gmail.com</a></p>
+            <p>Téléphone: <a href="tel:+221 77 139 50 69">+221 77 139 50 69</a></p>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Sophie Glamour Shop. Tous droits réservés.</p>
+        </div>
+    </footer>
+<!-- CHATBOT IA -->
+
+    <script src="sophie.js"></script>
+    <script>
+        // Initialiser panier badge + produits populaires + chatbot global + chargement produits
+        document.addEventListener('DOMContentLoaded', () => {
+            loadPopularProducts();
+            updateCartBadge();
+        });
+        function loadPopularProducts() {
+            let products = getProductsFromStorage();
+            const popular = products.slice(0, 4);
+            const container = document.getElementById('popular-products');
+            if(container) {
+                container.innerHTML = popular.map(p => `
+                    <div class="product-card">
+                        <img src="${p.image}" alt="${p.name}" onerror="this.src='https://placehold.co/400x400?text=Parfum'">
+                        <div class="product-info">
+                            <h3>${p.name}</h3>
+                            <p class="price">${p.price} FCFA</p>
+                            <button class="btn-add-cart" data-id="${p.id}"><i class="fas fa-shopping-cart"></i> Ajouter</button>
+                            <a href="product-details.html?id=${p.id}" class="details-link">Voir détails</a>
+                        </div>
+                    </div>
+                `).join('');
+                document.querySelectorAll('.btn-add-cart').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const id = parseInt(btn.dataset.id);
+                        addToCart(id, 1);
+                        updateCartBadge();
+                        showToast(" Produit ajouté au panier !");
+                    });
+                });
+            }
+        }
+        function showToast(msg) {
+            let toast = document.createElement('div');
+            toast.className = 'toast-notify';
+            toast.innerText = msg;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 2000);
+        }
+    </script>
+
+    
+    
+   
+</body>
+</html>

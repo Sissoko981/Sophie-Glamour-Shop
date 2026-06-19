@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commander - Sophie Glamour Shop</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="sophie.css">
+</head>
+<body>
+    <header class="header"><div class="container header-container"><div class="logo"><a href="sophie.html"><i class="fas fa-leaf"></i> Sophie Glamour Shop</a></div><nav class="navbar"><ul><li><a href="sophie.html">Accueil</a></li><li><a href="products.html">Produits</a></li><li><a href="cart.html">Panier <span id="cart-count" class="cart-badge">0</span></a></li><li><a href="checkout.html">Commande</a></li><li><a href="admin.html">Gestion</a></li></ul></nav><div class="menu-toggle"><i class="fas fa-bars"></i></div></div></header>
+
+    <main class="container">
+        <h2 style="margin: 2rem 0;"> Finaliser votre commande</h2>
+        <div class="form-card">
+            <form id="order-form" novalidate>
+                <div class="form-group"><label>Nom complet *</label><input type="text" id="nom" required></div>
+                <div class="form-group"><label>Prénom *</label><input type="text" id="prenom" required></div>
+                <div class="form-group"><label>Adresse de livraison *</label><input type="text" id="adresse" required></div>
+                <div class="form-group"><label>Téléphone *</label><input type="tel" id="telephone" required></div>
+                <div class="form-group"><label>Email *</label><input type="email" id="email" required></div>
+                <button type="submit" class="btn-primary" style="width:100%; background:#25D366;"> Confirmer & commander via WhatsApp <i class="fab fa-whatsapp"></i></button>
+            </form>
+            <div id="message-box"></div>
+        </div>
+        <div id="order-summary" style="margin-top: 20px; background:#faf5ff; border-radius: 28px; padding: 1rem;"></div>
+    </main>
+
+    <footer class="footer"><div class="container footer-container"><div class="footer-col"><h4>Sophie Glamour Shop</h4><p>Beauté naturelle</p></div></div></footer>
+
+    <!-- Chatbot -->
+    <div id="chatbot-widget" class="chatbot-widget"><div class="chatbot-header"><i class="fas fa-robot"></i> Smart Beauty IA<button id="closeChatBtn" class="close-chat"><i class="fas fa-times"></i></button></div><div class="chatbot-messages" id="chatMessages"><div class="bot-msg"> Prête pour votre commande ?</div></div><div class="chatbot-input"><input type="text" id="chatInput"><button id="sendChatBtn"><i class="fas fa-paper-plane"></i></button></div></div>
+    <div id="chatbotToggle" class="chatbot-toggle"><i class="fas fa-comment-dots"></i> Smart Beauty</div>
+
+    <script src="sophie.js"></script>
+    <script>
+        function displaySummary() {
+            let cart = getCart();
+            let products = getProductsFromStorage();
+            let items = cart.map(c => {
+                let p = products.find(prod => prod.id === c.id);
+                return p ? `${p.name} x${c.quantity} = ${(p.price * c.quantity).toFixed(2)} FCFA` : null;
+            }).filter(i=>i).join(', ');
+            let total = cart.reduce((sum, c) => {
+                let p = products.find(prod => prod.id === c.id);
+                return sum + (p ? p.price * c.quantity : 0);
+            }, 0);
+            document.getElementById('order-summary').innerHTML = `<strong> Récapitulatif :</strong> ${items || 'Aucun produit'} <br> <strong>Total : ${total.toFixed(2)} FCFA</strong>`;
+        }
+        function showMessage(message, type){
+            const box = document.getElementById('message-box');
+
+        box.style.display = 'block';
+        box.innerHTML = message;
+
+    if(type === 'success'){
+        box.className = 'success-message';
+    } else {
+        box.className = 'error-message';
+    }
+
+    setTimeout(() => {
+        box.style.display = 'none';
+    }, 4000);
+}
+        document.getElementById('order-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            let nom = document.getElementById('nom').value.trim();
+            let prenom = document.getElementById('prenom').value.trim();
+            let adresse = document.getElementById('adresse').value.trim();
+            let telephone = document.getElementById('telephone').value.trim();
+            let email = document.getElementById('email').value.trim();
+            if(!nom || !prenom || !adresse || !telephone || !email) {
+                showMessage("Veuillez remplir tous les champs.", "error");
+                return;
+            }
+            let cart = getCart();
+            if(cart.length === 0) { showMessage("Votre panier est vide. Ajoutez des produits.", "error"); return; }
+            let products = getProductsFromStorage();
+            let details = cart.map(c => {
+                let p = products.find(prod => prod.id === c.id);
+                return `${p.name} (x${c.quantity}) - ${(p.price * c.quantity).toFixed(2)} FCFA`;
+            }).join('%0a');
+            let total = cart.reduce((sum,c) => { let p = products.find(prod=>prod.id===c.id); return sum + (p?p.price*c.quantity:0); },0);
+            let message = `Bonjour Sophie,%0aJe souhaite passer commande :%0a%0a👤 Client : ${prenom} ${nom}%0a📞 Tél : ${telephone}%0a📧 Email : ${email}%0a🏠 Adresse : ${adresse}%0a%0a🛍️ Détails :%0a${details}%0a%0a💰 Total : ${total.toFixed(2)} FCFA%0aMerci !`;
+            let whatsappUrl = `https://wa.me/221771395069?text=${message}`;
+            window.open(whatsappUrl, '_blank');
+            // Optionnel : vider le panier après commande
+            localStorage.removeItem("beauty_cart");
+            updateCartBadge();
+            showMessage("Commande envoyée ! Vous serez contacté(e) sur WhatsApp pour confirmation.", "success");
+            window.location.href = "sophie.html";
+        });
+        document.addEventListener('DOMContentLoaded', () => { displaySummary(); updateCartBadge(); initChatbotEvents(); });
+    </script>
+</body>
+</html>

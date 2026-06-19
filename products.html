@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nos produits - Sophie Glamour Shop</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="sophie.css">
+</head>
+<body>
+    <header class="header"><div class="container header-container"><div class="logo"><a href="sophie.html"><i class="fas fa-leaf"></i> Sophie Glamour Shop</a></div><nav class="navbar"><ul><li><a href="sophie.html">Accueil</a></li><li><a href="products.html">Produits</a></li><li><a href="cart.html">Panier <span id="cart-count" class="cart-badge">0</span></a></li><li><a href="checkout.html">Commande</a></li><li><a href="admin.html">Gestion</a></li></ul></nav><div class="menu-toggle"><i class="fas fa-bars"></i></div></div></header>
+    <main class="container">
+        <h2 style="margin: 2rem 0;"> Notre collection</h2>
+        <div style="display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
+            <input type="text" id="searchInput" placeholder="🔍 Rechercher un produit..." style="padding: 10px; border-radius: 40px; border:1px solid #ddd; flex:1">
+            <select id="categoryFilter" style="padding: 10px; border-radius: 40px;"><option value="all">Toutes catégories</option><option value="parfum">Parfums</option><option value="hygiene">Hygiène</option><option value="soin">Soins</option></select>
+        </div>
+        <div id="productsList" class="products-grid"></div>
+    </main>
+    <footer class="footer"><div class="container footer-container"><div class="footer-col"><h4>Sophie Glamour Shop</h4><p>Beauté naturelle</p></div></div></footer>
+    <div id="chatbot-widget" class="chatbot-widget"><div class="chatbot-header"><i class="fas fa-robot"></i> Smart Beauty IA<button id="closeChatBtn" class="close-chat"><i class="fas fa-times"></i></button></div><div class="chatbot-messages" id="chatMessages"><div class="bot-msg"> Bonjour ! Posez vos questions beauté😉.</div></div><div class="chatbot-input"><input type="text" id="chatInput"><button id="sendChatBtn"><i class="fas fa-paper-plane"></i></button></div></div>
+    <div id="chatbotToggle" class="chatbot-toggle"><i class="fas fa-comment-dots"></i> Smart Beauty</div>
+    <script src="sophie.js"></script>
+    <script>
+        function renderProducts() {
+            let products = getProductsFromStorage();
+            let search = document.getElementById('searchInput').value.toLowerCase();
+            let category = document.getElementById('categoryFilter').value;
+            let filtered = products.filter(p => p.name.toLowerCase().includes(search) && (category === 'all' || p.category === category));
+            document.getElementById('productsList').innerHTML = filtered.map(p => `
+                <div class="product-card">
+                    <img src="${p.image}" alt="${p.name}">
+                    <div class="product-info"><h3>${p.name}</h3><p>${p.desc.substring(0,50)}...</p><div class="price">${p.price} FCFA</div>
+                    <button class="btn-add-cart" data-id="${p.id}"><i class="fas fa-cart-plus"></i> Ajouter</button>
+                    <a href="product-details.html?id=${p.id}" class="details-link">Détails</a></div>
+                </div>`).join('');
+            document.querySelectorAll('.btn-add-cart').forEach(btn => btn.addEventListener('click', (e) => { addToCart(parseInt(btn.dataset.id),1); updateCartBadge(); showMessage('Ajouté au panier', 'success'); }));
+        }
+        document.getElementById('searchInput').addEventListener('input', renderProducts);
+        document.getElementById('categoryFilter').addEventListener('change', renderProducts);
+        renderProducts();
+        updateCartBadge();
+        initChatbotEvents();
+    </script>
+</body>
+</html>

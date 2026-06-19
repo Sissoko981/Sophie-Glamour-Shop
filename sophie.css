@@ -1,0 +1,405 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: #fefbff;
+    color: #2c1a4a;
+}
+
+/* HEADER */
+.header {
+    background: white;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 1rem 0;
+}
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.logo a {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #8b5cf6;
+    text-decoration: none;
+}
+.logo i {
+    color: #f472b6;
+    margin-right: 5px;
+}
+.navbar ul {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+}
+.navbar a {
+    text-decoration: none;
+    font-weight: 500;
+    color: #2c1a4a;
+    transition: 0.3s;
+}
+.navbar a:hover {
+    color: #a78bfa;
+}
+.cart-badge {
+    background: #f472b6;
+    color: white;
+    border-radius: 20px;
+    padding: 0 8px;
+    font-size: 0.75rem;
+    margin-left: 5px;
+}
+.menu-toggle {
+    display: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+/* HERO */
+.hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 3rem 5%;
+    background: linear-gradient(135deg, #f3e8ff, #ffffff);
+}
+.hero-content {
+    flex: 1;
+}
+.hero-content h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+.hero-content span {
+    color: #c084fc;
+}
+.hero-content p {
+    margin: 1rem 0;
+    color: #4a3a6e;
+}
+.btn-primary {
+    background: #8b5cf6;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 40px;
+    color: white;
+    font-weight: 600;
+    display: inline-block;
+    text-decoration: none;
+    transition: 0.3s;
+    box-shadow: 0 4px 10px rgba(139,92,246,0.3);
+}
+.btn-primary:hover {
+    background: #6d28d9;
+    transform: scale(1.02);
+}
+.hero-image {
+    flex: 0.8;
+    text-align: center;
+}
+.hero-image img {
+    max-width: 100%;
+    border-radius: 30px;
+    box-shadow: 0 20px 30px rgba(0,0,0,0.1);
+}
+/* produits grids */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+}
+.product-card {
+    background: white;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+}
+.product-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 30px rgba(0,0,0,0.1);
+}
+.product-card img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+}
+.product-info {
+    padding: 1.2rem;
+}
+.product-info h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+.price {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #b45389;
+    margin: 10px 0;
+}
+.btn-add-cart, .details-link {
+    display: inline-block;
+    background: #f3e8ff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 40px;
+    color: #6b21a5;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 0.9rem;
+    margin-right: 8px;
+    transition: 0.2s;
+}
+.btn-add-cart:hover {
+    background: #d9c7ff;
+}
+/* features */
+.features-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 2rem;
+    margin: 4rem 0;
+}
+.feature {
+    flex: 1;
+    text-align: center;
+    background: white;
+    padding: 1.5rem;
+    border-radius: 28px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.02);
+}
+.feature i {
+    font-size: 2.5rem;
+    color: #c084fc;
+}
+/* footer */
+.footer {
+    background: #1e102f;
+    color: #ddd;
+    margin-top: 4rem;
+    padding: 2rem 0 1rem;
+}
+.footer-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.footer-col h4 {
+    color: white;
+    margin-bottom: 1rem;
+}
+.footer-col a {
+    color: #c4b5fd;
+    text-decoration: none;
+}
+.socials a {
+    font-size: 1.5rem;
+    margin-right: 15px;
+}
+.footer-bottom {
+    text-align: center;
+    padding-top: 2rem;
+    font-size: 0.8rem;
+}
+/* CHATBOT */
+.chatbot-widget {
+    position: fixed;
+    bottom: 90px;
+    right: 25px;
+    width: 320px;
+    background: white;
+    border-radius: 24px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    overflow: hidden;
+    transition: 0.3s;
+    z-index: 1100;
+    display: none;
+    flex-direction: column;
+}
+.chatbot-widget.open {
+    display: flex;
+}
+.chatbot-header {
+    background: #8b5cf6;
+    color: white;
+    padding: 12px 16px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.close-chat {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+.chatbot-messages {
+    height: 280px;
+    overflow-y: auto;
+    padding: 10px;
+    background: #fbfaff;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.bot-msg, .user-msg {
+    max-width: 85%;
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+}
+.bot-msg {
+    background: #e9defa;
+    align-self: flex-start;
+}
+.user-msg {
+    background: #8b5cf6;
+    color: white;
+    align-self: flex-end;
+}
+.chatbot-input {
+    display: flex;
+    border-top: 1px solid #e2e8f0;
+}
+.chatbot-input input {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    outline: none;
+}
+.chatbot-input button {
+    background: #f472b6;
+    border: none;
+    color: white;
+    width: 50px;
+    cursor: pointer;
+}
+.chatbot-toggle {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    background: #8b5cf6;
+    color: white;
+    border-radius: 50px;
+    padding: 12px 20px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 1100;
+    font-weight: 500;
+}
+.chatbot-toggle i {
+    margin-right: 6px;
+}
+/* formulaire */
+.form-card {
+    background: white;
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    border-radius: 32px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+}
+.form-group {
+    margin-bottom: 1.2rem;
+}
+.form-group label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+.form-group input, .form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    transition: 0.2s;
+}
+/* admin */
+.admin-product-item {
+    background: #f9f5ff;
+    margin: 1rem 0;
+    padding: 1rem;
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+/* responsive */
+@media (max-width: 768px) {
+    .navbar ul {
+        display: none;
+        flex-direction: column;
+        background: white;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        padding: 1rem;
+        gap: 1rem;
+    }
+    .navbar ul.active {
+        display: flex;
+    }
+    .menu-toggle {
+        display: block;
+    }
+    .hero {
+        flex-direction: column;
+        text-align: center;
+    }
+    .chatbot-widget {
+        width: 280px;
+        right: 10px;
+    }
+}
+.toast-notify {
+    position: fixed;
+    bottom: 100px;
+    left: 20px;
+    background: #2c1a4a;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 40px;
+    z-index: 1200;
+    animation: fadeOut 2s forwards;
+}
+@keyframes fadeOut {
+    0% { opacity: 1; }
+    70% { opacity: 1; }
+    100% { opacity: 0; visibility: hidden; }
+}
+#message-box{
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 12px;
+    display: none;
+    font-weight: 500;
+}
+
+.success-message{
+    background: #d4edda;
+    color: #155724;
+}
+
+.error-message{
+    background: #f8d7da;
+    color: #721c24;
+}

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Panier - Sophie Glamour Shop</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="sophie.css">
+</head>
+<body>
+    <header class="header"><div class="container header-container"><div class="logo"><a href="sophie.html"><i class="fas fa-leaf"></i> Sophie Glamour Shop</a></div><nav class="navbar"><ul><li><a href="sophie.html">Accueil</a></li><li><a href="products.html">Produits</a></li><li><a href="cart.html">Panier <span id="cart-count" class="cart-badge">0</span></a></li><li><a href="checkout.html">Commande</a></li><li><a href="admin.html">Gestion</a></li></ul></nav><div class="menu-toggle"><i class="fas fa-bars"></i></div></div></header>
+
+    <main class="container">
+        <h2 style="margin: 2rem 0 1rem;">🛍️ Votre panier</h2>
+        <div id="cart-container" class="cart-list"></div>
+        <div id="cart-total" class="cart-total"></div>
+        <div style="margin: 2rem 0; text-align: right;">
+            <a href="checkout.html" id="checkout-btn" class="btn-primary" style="background: #f472b6;">Passer commande <i class="fas fa-arrow-right"></i></a>
+        </div>
+    </main>
+
+    <footer class="footer"><div class="container footer-container"><div class="footer-col"><h4>Sophie Glamour Shop</h4><p>Beauté naturelle</p></div></div><div class="footer-bottom">© 2026 Sophie Glamour Shop</div></footer>
+
+    <!-- Chatbot -->
+    <div id="chatbot-widget" class="chatbot-widget"><div class="chatbot-header"><i class="fas fa-robot"></i> Smart Beauty IA<button id="closeChatBtn" class="close-chat"><i class="fas fa-times"></i></button></div><div class="chatbot-messages" id="chatMessages"><div class="bot-msg">🌸 Bonjour ! Conseil beauté, parfum ?</div></div><div class="chatbot-input"><input type="text" id="chatInput"><button id="sendChatBtn"><i class="fas fa-paper-plane"></i></button></div></div>
+    <div id="chatbotToggle" class="chatbot-toggle"><i class="fas fa-comment-dots"></i> Smart Beauty</div>
+
+    <script src="sophie.js"></script>
+    <script>
+        function renderCart() {
+            let cart = getCart();
+            let products = getProductsFromStorage();
+            let cartItems = cart.map(item => {
+                let product = products.find(p => p.id === item.id);
+                if(!product) return null;
+                return { ...product, quantity: item.quantity };
+            }).filter(p => p);
+            const container = document.getElementById('cart-container');
+            if(!container) return;
+            if(cartItems.length === 0) {
+                container.innerHTML = '<div class="form-card" style="text-align:center;">🛒 Votre panier est vide. <a href="products.html">Découvrir nos produits</a></div>';
+                document.getElementById('cart-total').innerHTML = '';
+                return;
+            }
+            container.innerHTML = cartItems.map(item => `
+                <div class="cart-item" style="display:flex; justify-content:space-between; align-items:center; background:white; padding:1rem; border-radius:24px; margin-bottom:1rem; flex-wrap:wrap;">
+                    <img src="${item.image}" style="width:80px; height:80px; object-fit:cover; border-radius:16px;" alt="${item.name}">
+                    <div style="flex:2; padding:0 1rem;"><h3>${item.name}</h3><p>${item.price} FCFA</p></div>
+                    <div><label>Quantité: <input type="number" min="1" value="${item.quantity}" data-id="${item.id}" class="cart-qty" style="width:70px; border-radius:20px; padding:5px;"></label></div>
+                    <div><strong>${(item.price * item.quantity).toFixed(2)} FCFA</strong></div>
+                    <button class="remove-item" data-id="${item.id}" style="background:#ffe4e6; border:none; padding:8px 12px; border-radius:30px; margin-left:10px; cursor:pointer;"><i class="fas fa-trash-alt"></i></button>
+                </div>
+            `).join('');
+            let total = cartItems.reduce((sum, i) => sum + (i.price * i.quantity), 0);
+            document.getElementById('cart-total').innerHTML = `<div class="form-card" style="text-align:right;"><h3>Total : ${total.toFixed(2)} FCFA</h3></div>`;
+            // events
+            document.querySelectorAll('.cart-qty').forEach(inp => {
+                inp.addEventListener('change', (e) => {
+                    let id = parseInt(inp.dataset.id);
+                    let newQty = parseInt(inp.value);
+                    if(!isNaN(newQty) && newQty > 0) updateQuantity(id, newQty);
+                    else if(newQty <= 0) removeCartItem(id);
+                    renderCart();
+                    updateCartBadge();
+                });
+            });
+            document.querySelectorAll('.remove-item').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    let id = parseInt(btn.dataset.id);
+                    removeCartItem(id);
+                    renderCart();
+                    updateCartBadge();
+                });
+            });
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCart();
+            updateCartBadge();
+            initChatbotEvents();
+        });
+    </script>
+</body>
+</html>
